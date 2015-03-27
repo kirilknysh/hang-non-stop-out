@@ -9,7 +9,7 @@ body {
 
 .list {
     width: 100%;
-    height: 300px;
+    height: 200px;
     overflow: auto;
     text-align: right;
 }
@@ -73,9 +73,7 @@ body {
 
 .visualizer {
     width: 100%;
-    height: 800px;
-    top: 0;
-    left: 0;
+    background: #222;
 }
 
 .visualizer .visual-canvas {
@@ -93,7 +91,9 @@ body {
     color: #fff;
     text-align: center;
     -webkit-transform: translate3d(0px, 100%, 0px);
+    transform: translate3d(0px, 100%, 0px);
     -webkit-transition: -webkit-transform 500ms;
+    transition: -webkit-transform 500ms;
 }
 .overlay:before {
     content: "";
@@ -112,9 +112,11 @@ body {
 }
 .overlay.visible {
     -webkit-transform: translate3d(0px, 0px, 0px);
+    transform: translate3d(0px, 0px, 0px);
 }
 .overlay.visible-visualizer {
     -webkit-transform: translate3d(0px, -300px, 0px);
+    transform: translate3d(0px, -300px, 0px);
 }
 
 .button {

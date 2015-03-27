@@ -10,6 +10,7 @@
     initAdding();
     overlay = initOverlay();
     list = initList();
+    canvasContainer.style.height = (window.innerHeight - 325) + 'px';
     VisualController.init(canvasContainer, canvasClass);
     global.leapController.connect();
 
@@ -40,7 +41,7 @@
             setTimeout(function () {
                 overlay.hide();
                 newGesture.textNode.value = '';
-            }, 4000);
+            }, 3000);
         });
         HNSOController.on('gesture-recognized', function (gestureName) {
             console.log('gesture-recognized');
