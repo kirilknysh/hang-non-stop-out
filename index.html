@@ -2,8 +2,27 @@
 <html>
 <head>
     <title>Hang non-stop out!</title>
+
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
+    <ul class="list">
+        <li>item 1</li>
+        <li>item 2</li>
+    </ul>
+    <div class="adder-text section">
+        <span class="new-text-label">Text:</span>
+        <span class="new-text-container">
+            <input id="new-text-value" class="new-text" type="text" placeholder="Enter text here..." />
+        </span>
+    </div>
+    <div class="adder-button">
+        <input class="new-button" type="button" value="Add new gesture" />
+    </div>
+    <div class="visualizer section">
+        <canvas class="visual-canvas"></canvas>
+    </div>
 
     <script type="text/javascript" src="bower_components/leapjs/leap-0.6.2.js"></script>
     <script type="text/javascript" src="bower_components/LeapTrainer.js/leaptrainer.js"></script>
