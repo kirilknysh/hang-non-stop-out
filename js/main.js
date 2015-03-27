@@ -86,9 +86,23 @@
         baseItem.appendChild(trashIcon);
         baseItem.appendChild(textNode);
 
+        listNode.addEventListener('click', function (event) {
+            var itemNode, gestureName;
+
+            if (event.target.classList.contains('trash')) {
+                itemNode = event.target.parentNode;
+                gestureName = itemNode.dataset.getureName;
+                HNSOController.remove(gestureName);
+                list.remove(itemNode);
+            }
+        });
+
         return {
             add: function (item) {
                 listNode.appendChild(this.createItem(item));
+            },
+            remove: function (itemNode) {
+                listNode.removeChild(itemNode);
             },
             removeByIndex: function (index) {
                 if (listNode.childNodes[index]) {
@@ -105,6 +119,7 @@
                     textNode = node.querySelector('.text');
 
                 textNode.innerText = item;
+                node.dataset.getureName = item;
 
                 return node;
             }

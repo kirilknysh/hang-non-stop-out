@@ -2,12 +2,26 @@
     
     global.leapController = global.leapController || new Leap.Controller();
 
-    global.HNSOController = new LeapTrainer.ANNController({
+    var HNSOControllerClass = LeapTrainer.ANNController.extend({
         controller: leapController,
         trainingCountdown: 5,
         trainingGestures: 1,//amount of repetition
         minPoseFrames: 40,
-        hitThreshold: 0.6
+        hitThreshold: 0.6,
+
+        remove: function (gestureName) {
+            if (this.gestures[gestureName]) {
+                delete this.gestures[gestureName];
+            }
+            if (this.poses.hasOwnProperty(gestureName)) {
+                delete this.poses[gestureName];
+            }
+
+            this.fire('gesture-removed', gestureName);
+        }
     });
 
-})(window,  LeapTrainer, Leap)
+    global.HNSOController = new HNSOControllerClass();
+    global.leapController.connect();
+
+})(window,  LeapTrainer, Leap);
