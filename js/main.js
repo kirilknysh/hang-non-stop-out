@@ -22,13 +22,13 @@
             overlay.content(countdown);
         });
         HNSOController.on('training-started', function (gestureName) {
-            overlay.content("Start your gesture");
+            overlay.showVisualizer("Start your gesture");
         });
         HNSOController.on('training-complete', function (gestureName, trainingSkipped) {
-            overlay.content('Gesture ' + gestureName + ' has been crated');
+            overlay.show('Gesture ' + gestureName + ' has been crated');
             setTimeout(function () {
                 overlay.hide();
-            }, 2000);
+            }, 4000);
         });
         HNSOController.on('gesture-recognized', function (gestureName) {
             console.log('gesture-recognized');
@@ -42,12 +42,19 @@
         return {
             show: function (content) {
                 overlayNode.classList.add('visible');
+                overlayNode.classList.remove('visible-visualizer');
 
                 if (content) {
                     this.content(content);
                 }
             },
+            showVisualizer: function () {
+                this.show.apply(this, arguments);
+
+                overlayNode.classList.add('visible-visualizer');
+            },
             hide: function () {
+                overlayNode.classList.remove('visible-visualizer');
                 overlayNode.classList.remove('visible');
             },
             content: function (content) {

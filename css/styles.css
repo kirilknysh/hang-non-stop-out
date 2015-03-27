@@ -64,7 +64,7 @@ body {
     color: #fff;
     text-align: center;
     -webkit-transform: translate3d(0px, 100%, 0px);
-    -webkit-animation: hidden-overlay 500ms forwards;
+    -webkit-transition: -webkit-transform 500ms;
 }
 .overlay:before {
     content: "";
@@ -82,22 +82,8 @@ body {
     text-transform: uppercase;
 }
 .overlay.visible {
-    -webkit-animation-name: visible-overlay;
+    -webkit-transform: translate3d(0px, 0px, 0px);
 }
-
-@-webkit-keyframes hidden-overlay {
-    0% {
-        -webkit-transform: translate3d(0px, 0px, 0px);
-    }
-    100% {
-        -webkit-transform: translate3d(0px, 100%, 0px);
-    }
+.overlay.visible-visualizer {
+    -webkit-transform: translate3d(0px, -300px, 0px);
 }
-@-webkit-keyframes visible-overlay {
-    0% {
-        -webkit-transform: translate3d(0px, 100%, 0px);
-    }
-    100% {
-        -webkit-transform: translate3d(0px, 0px, 0px);
-    }
-} 
