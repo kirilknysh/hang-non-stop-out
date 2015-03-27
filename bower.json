@@ -11,6 +11,9 @@
   "devDependencies": {
     "leapjs": "~0.6.2",
     "LeapTrainer.js": "git@github.com:roboleary/LeapTrainer.js.git",
-    "jquery": "~2.1.3"
+    "jquery": "~2.1.3",
+    "three.js": "~0.70.0",
+    "leapjs-rigged-hand": "git@github.com:leapmotion/leapjs-rigged-hand.git#~0.1.4",
+    "leapjs-plugins": "git@github.com:leapmotion/leapjs-plugins.git#~0.1.6"
   }
 }
