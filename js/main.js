@@ -3,8 +3,8 @@
         buttonNode: doc.getElementById('new-gesture-button'),
         textNode: doc.getElementById('new-text-value')
     },
-    canvasContainer = doc.getElementById('overlay'),
-    canvasClass = 'content',
+    canvasContainer = doc.getElementById('visualizer'),
+    canvasClass = 'visual-canvas',
     overlay, list, iterator, predefinedGestures;
 
     initAdding();
