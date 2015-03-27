@@ -4,7 +4,7 @@
 	VisualController.init = function initVisualController (canvasContainer, canvasClass) {
 		var scene = new THREE.Scene(),
 	    	pointLight = new THREE.PointLight(0xFFffff),
-	    	camera = new THREE.PerspectiveCamera(45, canvasContainer.innerWidth / canvasContainer.innerHeight, 1, 1000),
+	    	camera = new THREE.PerspectiveCamera(45, canvasContainer.clientWidth / canvasContainer.clientHeight, 1, 1000),
 	    	renderer = new THREE.WebGLRenderer({
 	    	    alpha: true
 		    });
@@ -15,10 +15,11 @@
 	    camera.position.fromArray([0, 6, 30]);
 	    camera.lookAt(new THREE.Vector3(0, 0, 0));
 
+
 	    renderer.setClearColor(0x000000, 0);
-	    renderer.setSize(canvasContainer.innerWidth, canvasContainer.innerHeight);
-	    renderer.domElement.width = parseInt(canvasContainer.clientWidth, 10);
-	    renderer.domElement.height = parseInt(canvasContainer.clientHeight, 10);
+	    renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
+	    // renderer.domElement.width = parseInt(canvasContainer.clientWidth, 10);
+	    // renderer.domElement.height = parseInt(canvasContainer.clientHeight, 10);
 	    if (canvasClass) {
 	    	renderer.domElement.classList.add(canvasClass);
 	    }
@@ -30,9 +31,9 @@
 	    canvasContainer.appendChild(renderer.domElement);
 
 	    global.addEventListener('resize', function() {
-	        camera.aspect = canvasContainer.innerWidth / canvasContainer.innerHeight;
+	        camera.aspect = canvasContainer.clientWidth / canvasContainer.clientHeight;
 	        camera.updateProjectionMatrix();
-	        renderer.setSize(canvasContainer.innerWidth, canvasContainer.innerHeight);
+	        renderer.setSize(canvasContainer.clientWidth, canvasContainer.clientHeight);
 	        return renderer.render(scene, camera);
 	    }, false);
 
