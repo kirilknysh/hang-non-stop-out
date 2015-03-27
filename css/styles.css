@@ -13,6 +13,20 @@ body {
     overflow: auto;
     text-align: right;
 }
+.list .item:hover {
+    background: #aaa;
+}
+.list .item .trash {
+    width: 24px;
+    background: url('../img/trash.png');
+    height: 24px;
+    display: inline-block;
+    float: left;
+}
+.list .item .trash:hover {
+    box-shadow: 0px 0px 5px 1px #000;
+    cursor: pointer;
+}
 
 .section {
     margin-top: 10px;

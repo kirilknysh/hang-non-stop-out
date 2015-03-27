@@ -3,10 +3,16 @@
         buttonNode: doc.getElementById('new-gesture-button'),
         textNode: doc.getElementById('new-text-value')
     },
-    overlay;
+    overlay, list, iterator, predefinedGestures;
 
     initAdding();
     overlay = initOverlay();
+    list = initList();
+
+    predefinedGestures = Object.keys(HNSOController.gestures);
+    for (iterator = 0; iterator < predefinedGestures.length; iterator++) {
+        list.add(predefinedGestures[iterator]);
+    }
 
     function initAdding() {
         newGesture.buttonNode.addEventListener('click', function (event) {
@@ -25,7 +31,8 @@
             overlay.showVisualizer("Start your gesture");
         });
         HNSOController.on('training-complete', function (gestureName, trainingSkipped) {
-            overlay.show('Gesture ' + gestureName + ' has been crated');
+            overlay.show('Gesture ' + gestureName + ' has been created');
+            list.add(gestureName);
             setTimeout(function () {
                 overlay.hide();
             }, 4000);
@@ -59,6 +66,43 @@
             },
             content: function (content) {
                 overlayContent.innerHTML = content;
+            }
+        };
+    }
+
+    function initList() {
+        var listNode = doc.getElementById('list'),
+            baseItem = doc.createElement('li'),
+            textNode = doc.createElement('span'),
+            trashIcon = doc.createElement('span');
+
+        baseItem.classList.add('item');
+        textNode.classList.add('text');
+        trashIcon.classList.add('trash');
+        baseItem.appendChild(trashIcon);
+        baseItem.appendChild(textNode);
+
+        return {
+            add: function (item) {
+                listNode.appendChild(this.createItem(item));
+            },
+            removeByIndex: function (index) {
+                if (listNode.childNodes[index]) {
+                    listNode.removeChild(listNode.childNodes[index]);
+                }
+            },
+            clear: function () {
+                while (listNode.firstChild) {
+                    listNode.removeChild(listNode.firstChild);
+                }
+            },
+            createItem: function(item) {
+                var node = baseItem.cloneNode(true),
+                    textNode = node.querySelector('.text');
+
+                textNode.innerText = item;
+
+                return node;
             }
         };
     }
