@@ -39,6 +39,7 @@
             list.add(gestureName);
             setTimeout(function () {
                 overlay.hide();
+                newGesture.textNode.value = '';
             }, 4000);
         });
         HNSOController.on('gesture-recognized', function (gestureName) {

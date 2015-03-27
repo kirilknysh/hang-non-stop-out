@@ -22,6 +22,5 @@
     });
 
     global.HNSOController = new HNSOControllerClass();
-    global.leapController.connect();
 
 })(window,  LeapTrainer, Leap);
