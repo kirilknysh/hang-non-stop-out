@@ -1,0 +1,16 @@
+{
+  "name": "Hang-non-stop-out",
+  "version": "0.0.1",
+  "homepage": "https://github.com/kirilknysh/hang-non-stop-out",
+  "authors": [
+    "Pacantre"
+  ],
+  "main": "main.js",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "leapjs": "~0.6.2",
+    "LeapTrainer.js": "git@github.com:roboleary/LeapTrainer.js.git",
+    "jquery": "~2.1.3"
+  }
+}
