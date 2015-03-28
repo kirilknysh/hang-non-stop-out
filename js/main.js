@@ -5,20 +5,22 @@
     },
     canvasContainer = doc.getElementById('visualizer'),
     canvasClass = 'visual-canvas',
-    overlay, list, iterator, predefinedGestures;
+    overlay, list, iterator;
 
     db.init().always(function () {
-        initAdding();
-        overlay = initOverlay();
-        list = initList();
-        canvasContainer.style.height = (window.innerHeight - 325) + 'px';
-        VisualController.init(canvasContainer, canvasClass);
-        global.leapController.connect();
+        db.getAllGestures().always(function(predefinedGestures) {
+            initAdding();
+            overlay = initOverlay();
+            list = initList();
+            canvasContainer.style.height = (window.innerHeight - 325) + 'px';
+            VisualController.init(canvasContainer, canvasClass);
+            global.leapController.connect();
 
-        predefinedGestures = Object.keys(HNSOController.gestures);
-        for (iterator = 0; iterator < predefinedGestures.length; iterator++) {
-            list.add(predefinedGestures[iterator]);
-        }
+            for (iterator = 0; iterator < predefinedGestures.length; iterator++) {
+                HNSOController.fromJSON(predefinedGestures[iterator].json);
+                list.add(predefinedGestures[iterator].name);
+            }
+        });
     });
 
     function initAdding() {
@@ -40,6 +42,7 @@
         HNSOController.on('training-complete', function (gestureName, trainingSkipped) {
             overlay.show('Gesture ' + gestureName + ' has been created');
             list.add(gestureName);
+            db.addGesture(gestureName, HNSOController.toJSON(gestureName));
             setTimeout(function () {
                 overlay.hide();
                 newGesture.textNode.value = '';
@@ -98,6 +101,7 @@
                 gestureName = itemNode.dataset.getureName;
                 HNSOController.remove(gestureName);
                 list.remove(itemNode);
+                db.removeGesture(gestureName);
             }
         });
 

@@ -79,7 +79,7 @@
 
                 if (cursor) {
                     gesture = cursor.value;
-                    gestures.push(gesture.json);
+                    gestures.push(gesture);
                     cursor.continue();
                 } else {
                     dfd.resolve(gestures);
@@ -87,7 +87,7 @@
             };
 
             objectCursor.onerror = function () {
-                dfd.reject();
+                dfd.reject(gestures);
             };
 
             return dfd;
