@@ -65,10 +65,6 @@
                         HNSOController.fromJSON(predefinedGestures[iterator].json);
                         list.add(predefinedGestures[iterator].name);
                     }
-
-                    // setTimeout(function() {
-                    //     playGesture("Автомобиль");
-                    // }, 10000);
                 });
             });
         });
@@ -104,6 +100,7 @@
     function initRecognition() {
         HNSOController.on('gesture-recognized', function (prob, gestureName) {
             console.log('recognized ' + prob + ' name ' + gestureName);
+            list.highlight(gestureName);
             playGesture(gestureName);
         });
     }
@@ -216,9 +213,28 @@
                     textNode = node.querySelector('.text');
 
                 textNode.innerText = item;
-                node.dataset.getureName = item;
+                node.dataset.gestureName = item;
 
                 return node;
+            },
+            highlight: function (gestureName) {
+                var selected = listNode.querySelector('.selected'),
+                    target, iterator;
+
+                if (selected) {
+                    selected.classList.remove('selected');
+                }
+
+                for (iterator = 0; iterator < listNode.childNodes.length; iterator++) {
+                    if (listNode.childNodes[iterator].dataset.gestureName &&
+                        listNode.childNodes[iterator].dataset.gestureName === gestureName) {
+                        target = listNode.childNodes[iterator];
+                    }
+                }
+
+                if (target) {
+                    target.classList.add('selected');
+                }
             }
         };
     }

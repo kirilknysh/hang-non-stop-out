@@ -25,6 +25,12 @@ body {
 .list .item:hover {
     background: #a7d357;
 }
+.list .item.selected {
+    background: #028482;
+    color: #fff;
+    animation: highlighted-item 600ms 3;
+    -webkit-animation: highlighted-item 600ms 3;
+}
 .list .item .trash {
     width: 24px;
     background: url('../img/trash.png');
@@ -206,4 +212,21 @@ body {
     background: #fff;
     box-shadow: 0 0 0 3px #007dc1, inset 0 2px 3px rgba( 0, 0, 0, 0.2 ), 0px 5px 5px rgba( 0, 0, 0, 0.15 );
     outline: none;
+}
+
+@-webkit-keyframes highlighted-item {
+    0% {
+        box-shadow: inset 0px 0px 0px 0px #fff;
+    }
+    100% {
+        box-shadow: inset 0px 0px 7px 2px #fff;
+    }
+}
+@keyframes highlighted-item {
+    0% {
+        box-shadow: inset 0px 0px 0px 0px #fff;
+    }
+    100% {
+        box-shadow: inset 0px 0px 7px 2px #fff;
+    }
 }
