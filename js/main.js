@@ -28,7 +28,9 @@
                         list.add(predefinedGestures[iterator].name);
                     }
 
-                    setTimeout(playGesture, 10000);
+                    // setTimeout(function() {
+                    //     playGesture("Автомобиль");
+                    // }, 10000);
                 });
             });
         });
@@ -68,18 +70,29 @@
     }
 
     function playGesture(gestureName) {
-        var audioResource = gapi.hangout.av.effects.createAudioResource('http://download.wavetlan.com/SVV/Media/HTTP/WAV/Media-Convert/Media-Convert_test3_PCM_Stereo_VBR_16SS_11025Hz.wav');
+        var url = generateUrlForGesture(gestureName),
+            audioResource = gapi.hangout.av.effects.createAudioResource(url);
 
         audioResource.onLoad.add(function __onAudioResouceLoaded__(loadResult) {
             audioResource.onLoad.remove(__onAudioResouceLoaded__);
-
             if (loadResult.isLoaded) {
-                audioResource.play({localOnly: false, loop: false, volume: 10});//TODO: volume???
-                setTimeout(function () {
-                    audioResource.dispose();
-                }, 5000);//TODO: do we need timeout???
+                audioResource.play({localOnly: false, loop: false, volume: 0.9});
+                audioResource.dispose();
             }
         });
+    }
+
+    function generateUrlForGesture(gestureName) {
+        var url = 'https://tts.voicetech.yandex.net/generate?',
+            params = [
+                'text=' + encodeURIComponent(gestureName),
+                'format=wav',
+                'lang=ru-RU',
+                'speaker=jane',
+                'key=1e0195fd-c2d7-484f-aa71-8dd37733c205'
+            ];
+
+        return url + params.join('&');
     }
 
     function initOverlay() {
