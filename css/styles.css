@@ -17,13 +17,13 @@ body {
     font-size: 1.3rem;
     line-height: 1.8rem;
     padding: 0px 5px;
-    background: #bbb;
+    background: #dbe9ea;
 }
 .list .item:nth-child(odd) {
-    background: #fff;
+    background: #f5f9fa;
 }
 .list .item:hover {
-    background: #888;
+    background: #a7d357;
 }
 .list .item .trash {
     width: 24px;
@@ -31,6 +31,7 @@ body {
     height: 24px;
     display: inline-block;
     float: left;
+    margin-top: 2px;
 }
 .list .item .trash:hover {
     box-shadow: 0px 0px 5px 1px #000;
