@@ -8,7 +8,10 @@
     overlay, list, iterator;
 
     var gadgets = gadgets || { util: { registerOnLoadHandler: function(cb) { cb(); } } };
-    var gapi = gapi || { hangout: { onApiReady: { add: function(cb) { cb({}) } } } };
+    var gapi = gapi || { hangout: { 
+        onApiReady: { add: function(cb) { cb({ isApiReady: true }) } },
+        av: { effects: { createAudioResource: function() {} }}
+    } };
 
     gadgets.util.registerOnLoadHandler(function () {
         gapi.hangout.onApiReady.add(function (eventObj) {
@@ -72,6 +75,7 @@
 
     function playGesture(gestureName) {
         var audioResource = gapi.hangout.av.effects.createAudioResource('http://download.wavetlan.com/SVV/Media/HTTP/WAV/Media-Convert/Media-Convert_test3_PCM_Stereo_VBR_16SS_11025Hz.wav');
+        if (!audioResource) { return }
 
         audioResource.onLoad.add(function __onAudioResouceLoaded__(loadResult) {
             audioResource.onLoad.remove(__onAudioResouceLoaded__);

@@ -6,7 +6,8 @@ var gulp = require('gulp'),
     runSequence = require('run-sequence'),
     maps = require('gulp-sourcemaps'),
     fs = require('fs'),
-    replace = require('gulp-replace-task');
+    replace = require('gulp-replace-task'),
+    htmlreplace = require('gulp-html-replace');
 
 
 var vendorScripts = [
@@ -49,19 +50,19 @@ gulp.task('clean', function(cb) {
 
 gulp.task('vendor', function () {
 	return gulp.src(vendorScripts)
-		.pipe(maps.init())
+		// .pipe(maps.init())
 	      .pipe(concat('vendor.min.js'))
 	      .pipe(uglify())
-	    .pipe(maps.write('.'))
+	    // .pipe(maps.write('.'))
 	    .pipe(gulp.dest('./build/vendor'));
 });
 
 gulp.task('app', function () {
 	return gulp.src(appScripts)
-		.pipe(maps.init())
+		// .pipe(maps.init())
 	      .pipe(concat('app.min.js'))
 	      .pipe(uglify())
-	    .pipe(maps.write('.'))
+	    // .pipe(maps.write('.'))
 	    .pipe(gulp.dest('./build/js'));
 });
 
@@ -77,6 +78,10 @@ gulp.task('img', function () {
 
 gulp.task('index', function () {
 	return gulp.src('index.html')
+		.pipe(htmlreplace({
+	        'vendor': 'build/vendor/vendor.min.js',
+	        'app': 'build/js/app.min.js'
+	    }))
 		.pipe(gulp.dest('./build'));
 });
 
@@ -87,7 +92,7 @@ gulp.task('hang-app', function () {
 		        {
 				    match: 'include',
 				    replacement: function () {
-				    	var fileContent = fs.readFileSync('./index.html', 'utf8');
+				    	var fileContent = fs.readFileSync('./build/index.html', 'utf8');
 				    	fileContent = fileContent.replace('<!DOCTYPE html>', '');
 				    	fileContent = fileContent.replace('build/css/reset.css', '//hnso.azurewebsites.net/build/css/reset.css');
 				    	fileContent = fileContent.replace('build/css/styles.css', '//hnso.azurewebsites.net/build/css/styles.css');
