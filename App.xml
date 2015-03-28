@@ -12,10 +12,11 @@
  * License for the specific language governing permissions and limitations under
  * the License
 -->
-        <ModulePrefs title="Hangout Starter">
+        <ModulePrefs title="Hang non-stop out">
                 <Require feature="rpc" />
                 <Require feature="views" />
                 <Require feature="locked-domain" />
+                <Icon>https://hnso.azurewebsites.net/favicon.ico</Icon>
         </ModulePrefs>
         <Content preferred_width="500" type="html"><![CDATA[     
 
