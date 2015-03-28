@@ -1,4 +1,4 @@
-(function (global, doc, HNSOController, VisualController, db) {
+(function (global, doc, HNSOController, VisualController, db, gapi) {
     var newGesture = {
         buttonNode: doc.getElementById('new-gesture-button'),
         textNode: doc.getElementById('new-text-value')
@@ -7,19 +7,30 @@
     canvasClass = 'visual-canvas',
     overlay, list, iterator;
 
-    db.init().always(function () {
-        db.getAllGestures().always(function(predefinedGestures) {
-            initAdding();
-            overlay = initOverlay();
-            list = initList();
-            canvasContainer.style.height = (window.innerHeight - 325) + 'px';
-            VisualController.init(canvasContainer, canvasClass);
-            global.leapController.connect();
-
-            for (iterator = 0; iterator < predefinedGestures.length; iterator++) {
-                HNSOController.fromJSON(predefinedGestures[iterator].json);
-                list.add(predefinedGestures[iterator].name);
+    gadgets.util.registerOnLoadHandler(function () {
+        gapi.hangout.onApiReady.add(function (eventObj) {
+            if (!eventObj.isApiReady) {
+                return;
             }
+
+            db.init().always(function () {
+                db.getAllGestures().always(function(predefinedGestures) {
+                    initAdding();
+                    initRecognition();
+                    overlay = initOverlay();
+                    list = initList();
+                    canvasContainer.style.height = (window.innerHeight - 325) + 'px';
+                    VisualController.init(canvasContainer, canvasClass);
+                    global.leapController.connect();
+
+                    for (iterator = 0; iterator < predefinedGestures.length; iterator++) {
+                        HNSOController.fromJSON(predefinedGestures[iterator].json);
+                        list.add(predefinedGestures[iterator].name);
+                    }
+
+                    setTimeout(playGesture, 10000);
+                });
+            });
         });
     });
 
@@ -48,8 +59,26 @@
                 newGesture.textNode.value = '';
             }, 3000);
         });
+    }
+
+    function initRecognition() {
         HNSOController.on('gesture-recognized', function (gestureName) {
-            console.log('gesture-recognized');
+            playGesture(gestureName);
+        });
+    }
+
+    function playGesture(gestureName) {
+        var audioResource = gapi.hangout.av.effects.createAudioResource('http://download.wavetlan.com/SVV/Media/HTTP/WAV/Media-Convert/Media-Convert_test3_PCM_Stereo_VBR_16SS_11025Hz.wav');
+
+        audioResource.onLoad.add(function __onAudioResouceLoaded__(loadResult) {
+            audioResource.onLoad.remove(__onAudioResouceLoaded__);
+
+            if (loadResult.isLoaded) {
+                audioResource.play({localOnly: false, loop: false, volume: 10});//TODO: volume???
+                setTimeout(function () {
+                    audioResource.dispose();
+                }, 5000);//TODO: do we need timeout???
+            }
         });
     }
 
@@ -141,4 +170,4 @@
             HNSOController.create(name);
         }, 2000);
     }
-})(window, document, window.HNSOController, window.VisualController, window.DB);
+})(window, document, window.HNSOController, window.VisualController, window.DB, window.gapi);
