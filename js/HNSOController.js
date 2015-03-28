@@ -2,7 +2,7 @@
     
     global.leapController = global.leapController || new Leap.Controller();
 
-    var HNSOControllerClass = LeapTrainer.ANNController.extend({
+    var HNSOControllerClass = LeapTrainer.CorrelationController.extend({
         controller: leapController,
         trainingCountdown: 5,
         trainingGestures: 1,//amount of repetition

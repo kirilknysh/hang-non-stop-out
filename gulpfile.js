@@ -15,6 +15,8 @@ var vendorScripts = [
 	'bower_components/LeapTrainer.js/leaptrainer.js',
 	'bower_components/LeapTrainer.js/sub-classes/lib/brain.js',
 	'vendor/neural-networks.js',
+	'bower_components/LeapTrainer.js/sub-classes/cross-correlation.js',
+	'bower_components/LeapTrainer.js/sub-classes/high-resolution-recording.js',
 	'bower_components/three.js/three.js',
 	'bower_components/leapjs-plugins/main/leap-plugins-0.1.6.js',
 	'bower_components/leapjs-rigged-hand/build/leap.rigged-hand-0.1.4.js',
@@ -41,27 +43,27 @@ gulp.task('default', function () {
 });
 
 gulp.task('build', function () {
-	runSequence('clean', 'vendor', 'app', 'styles', 'img', 'index', 'hang-app');
+	runSequence('clean', 'app', 'styles', 'img', 'index', 'hang-app');
 });
 
 gulp.task('clean', function(cb) {
   del(['build'], cb);
 });
 
-gulp.task('vendor', function () {
-	return gulp.src(vendorScripts)
-		// .pipe(maps.init())
-	      .pipe(concat('vendor.min.js'))
-	      .pipe(uglify())
-	    // .pipe(maps.write('.'))
-	    .pipe(gulp.dest('./build/vendor'));
-});
+// gulp.task('vendor', function () {
+// 	return gulp.src(vendorScripts)
+// 		// .pipe(maps.init())
+// 	      .pipe(concat('vendor.min.js'))
+// 	      .pipe(uglify())
+// 	    // .pipe(maps.write('.'))
+// 	    .pipe(gulp.dest('./build/vendor'));
+// });
 
 gulp.task('app', function () {
-	return gulp.src(appScripts)
+	return gulp.src(vendorScripts.concat(appScripts))
 		// .pipe(maps.init())
 	      .pipe(concat('app.min.js'))
-	      .pipe(uglify())
+	      // .pipe(uglify())
 	    // .pipe(maps.write('.'))
 	    .pipe(gulp.dest('./build/js'));
 });
@@ -79,7 +81,6 @@ gulp.task('img', function () {
 gulp.task('index', function () {
 	return gulp.src('index.html')
 		.pipe(htmlreplace({
-	        'vendor': 'build/vendor/vendor.min.js',
 	        'app': 'build/js/app.min.js'
 	    }))
 		.pipe(gulp.dest('./build'));
@@ -94,9 +95,8 @@ gulp.task('hang-app', function () {
 				    replacement: function () {
 				    	var fileContent = fs.readFileSync('./build/index.html', 'utf8');
 				    	fileContent = fileContent.replace('<!DOCTYPE html>', '');
-				    	fileContent = fileContent.replace('build/css/reset.css', '//hnso.azurewebsites.net/build/css/reset.css');
-				    	fileContent = fileContent.replace('build/css/styles.css', '//hnso.azurewebsites.net/build/css/styles.css');
-				    	fileContent = fileContent.replace('build/vendor/vendor.min.js', '//hnso.azurewebsites.net/build/vendor/vendor.min.js');
+				    	fileContent = fileContent.replace('css/reset.css', '//hnso.azurewebsites.net/build/css/reset.css');
+				    	fileContent = fileContent.replace('css/styles.css', '//hnso.azurewebsites.net/build/css/styles.css');
 				    	fileContent = fileContent.replace('build/js/app.min.js', '//hnso.azurewebsites.net/build/js/app.min.js');
 				    	return fileContent;
 				    }

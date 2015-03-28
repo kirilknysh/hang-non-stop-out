@@ -68,7 +68,8 @@
     }
 
     function initRecognition() {
-        HNSOController.on('gesture-recognized', function (gestureName) {
+        HNSOController.on('gesture-recognized', function (prob, gestureName) {
+            console.log('recognized ' + prob + ' name ' + gestureName);
             playGesture(gestureName);
         });
     }
