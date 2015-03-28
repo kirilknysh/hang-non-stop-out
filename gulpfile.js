@@ -4,7 +4,9 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     del = require('del'),
     runSequence = require('run-sequence'),
-    maps = require('gulp-sourcemaps');
+    maps = require('gulp-sourcemaps'),
+    fs = require('fs'),
+    replace = require('gulp-replace-task');
 
 
 var vendorScripts = [
@@ -38,7 +40,7 @@ gulp.task('default', function () {
 });
 
 gulp.task('build', function () {
-	runSequence('clean', 'vendor', 'app', 'styles', 'img');
+	runSequence('clean', 'vendor', 'app', 'styles', 'img', 'index', 'hang-app');
 });
 
 gulp.task('clean', function(cb) {
@@ -72,3 +74,30 @@ gulp.task('img', function () {
 	return gulp.src('img/*')
 		.pipe(gulp.dest('./build/img'));
 });
+
+gulp.task('index', function () {
+	return gulp.src('index.html')
+		.pipe(gulp.dest('./build'));
+});
+
+gulp.task('hang-app', function () {
+	gulp.src('App.xml')
+    	.pipe(replace({
+	      	patterns: [
+		        {
+				    match: 'include',
+				    replacement: function () {
+				    	var fileContent = fs.readFileSync('./index.html', 'utf8');
+				    	fileContent = fileContent.replace('<!DOCTYPE html>', '');
+				    	fileContent = fileContent.replace('build/css/reset.css', '//hnso.azurewebsites.net/build/css/reset.css');
+				    	fileContent = fileContent.replace('build/css/styles.css', '//hnso.azurewebsites.net/build/css/styles.css');
+				    	fileContent = fileContent.replace('build/vendor/vendor.min.js', '//hnso.azurewebsites.net/build/vendor/vendor.min.js');
+				    	fileContent = fileContent.replace('build/js/app.min.js', '//hnso.azurewebsites.net/build/js/app.min.js');
+				    	return fileContent;
+				    }
+
+		        }
+	      	]
+	    }))
+	    .pipe(gulp.dest('build'));
+})
