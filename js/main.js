@@ -1,4 +1,4 @@
-(function (global, doc, HNSOController, VisualController, db, gapi) {
+(function (global, doc, HNSOController, VisualController, db, gapi, gadgets) {
     var newGesture = {
         buttonNode: doc.getElementById('new-gesture-button'),
         textNode: doc.getElementById('new-text-value')
@@ -7,8 +7,37 @@
     canvasClass = 'visual-canvas',
     overlay, list, iterator;
 
-    var gadgets = gadgets || { util: { registerOnLoadHandler: function(cb) { cb(); } } };
-    var gapi = gapi || { hangout: { onApiReady: { add: function(cb) { cb({}) } } } };
+    gadgets = gadgets || { util: { registerOnLoadHandler: function(cb) { cb(); } } };
+    if (!gapi) {
+        gapi = {};
+    }
+    if (!gapi.hangout) {
+        gapi.hangout = {};
+    }
+    if (!gapi.hangout.av) {
+        gapi.hangout.av = {};
+    }
+    if (!gapi.hangout.av.effects) {
+        gapi.hangout.av.effects = {};
+    }
+    if (!gapi.hangout.av.effects.createAudioResource) {
+        gapi.hangout.av.effects.createAudioResource = function () {
+            return {
+                onLoad: {
+                    add: function (cb) { cb({ isLoaded: true }); },
+                    remove: function () { }
+                },
+                play: function () {},
+                dispose: function () {}
+            };
+        };
+    }
+    if (!gapi.hangout.onApiReady) {
+        gapi.hangout.onApiReady = {};
+    }
+    if (!gapi.hangout.onApiReady.add) {
+        gapi.hangout.onApiReady.add = function (cb) { cb({ isApiReady: true }); };
+    }
 
     gadgets.util.registerOnLoadHandler(function () {
         gapi.hangout.onApiReady.add(function (eventObj) {
@@ -186,4 +215,4 @@
             HNSOController.create(name);
         }, 2000);
     }
-})(window, document, window.HNSOController, window.VisualController, window.DB, window.gapi);
+})(window, document, window.HNSOController, window.VisualController, window.DB, window.gapi, window.gadgets);
