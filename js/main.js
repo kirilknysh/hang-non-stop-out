@@ -1,4 +1,4 @@
-(function (global, doc, HNSOController, VisualController, db, gapi) {
+(function (global, doc, HNSOController, VisualController, db, gapi, gadgets) {
     var newGesture = {
         buttonNode: doc.getElementById('new-gesture-button'),
         textNode: doc.getElementById('new-text-value')
@@ -7,11 +7,37 @@
     canvasClass = 'visual-canvas',
     overlay, list, iterator;
 
-    var gadgets = gadgets || { util: { registerOnLoadHandler: function(cb) { cb(); } } };
-    var gapi = gapi || { hangout: { 
-        onApiReady: { add: function(cb) { cb({ isApiReady: true }) } },
-        av: { effects: { createAudioResource: function() {} }}
-    } };
+    gadgets = gadgets || { util: { registerOnLoadHandler: function(cb) { cb(); } } };
+    if (!gapi) {
+        gapi = {};
+    }
+    if (!gapi.hangout) {
+        gapi.hangout = {};
+    }
+    if (!gapi.hangout.av) {
+        gapi.hangout.av = {};
+    }
+    if (!gapi.hangout.av.effects) {
+        gapi.hangout.av.effects = {};
+    }
+    if (!gapi.hangout.av.effects.createAudioResource) {
+        gapi.hangout.av.effects.createAudioResource = function () {
+            return {
+                onLoad: {
+                    add: function (cb) { cb({ isLoaded: true }); },
+                    remove: function () { }
+                },
+                play: function () {},
+                dispose: function () {}
+            };
+        };
+    }
+    if (!gapi.hangout.onApiReady) {
+        gapi.hangout.onApiReady = {};
+    }
+    if (!gapi.hangout.onApiReady.add) {
+        gapi.hangout.onApiReady.add = function (cb) { cb({ isApiReady: true }); };
+    }
 
     gadgets.util.registerOnLoadHandler(function () {
         gapi.hangout.onApiReady.add(function (eventObj) {
@@ -34,7 +60,9 @@
                         list.add(predefinedGestures[iterator].name);
                     }
 
-                    setTimeout(playGesture, 10000);
+                    // setTimeout(function() {
+                    //     playGesture("Автомобиль");
+                    // }, 10000);
                 });
             });
         });
@@ -75,19 +103,30 @@
     }
 
     function playGesture(gestureName) {
-        var audioResource = gapi.hangout.av.effects.createAudioResource('http://download.wavetlan.com/SVV/Media/HTTP/WAV/Media-Convert/Media-Convert_test3_PCM_Stereo_VBR_16SS_11025Hz.wav');
-        if (!audioResource) { return }
+        var url = generateUrlForGesture(gestureName),
+            audioResource = gapi.hangout.av.effects.createAudioResource(url);
 
         audioResource.onLoad.add(function __onAudioResouceLoaded__(loadResult) {
             audioResource.onLoad.remove(__onAudioResouceLoaded__);
-
             if (loadResult.isLoaded) {
-                audioResource.play({localOnly: false, loop: false, volume: 10});//TODO: volume???
-                setTimeout(function () {
-                    audioResource.dispose();
-                }, 5000);//TODO: do we need timeout???
+                console.log('name ' + gestureName + " url " + url);
+                audioResource.play({localOnly: false, loop: false, volume: 0.9});
+                audioResource.dispose();
             }
         });
+    }
+
+    function generateUrlForGesture(gestureName) {
+        var url = 'https://tts.voicetech.yandex.net/generate?',
+            params = [
+                'text=' + encodeURIComponent(gestureName),
+                'format=wav',
+                'lang=ru-RU',
+                'speaker=jane',
+                'key=1e0195fd-c2d7-484f-aa71-8dd37733c205'
+            ];
+
+        return url + params.join('&');
     }
 
     function initOverlay() {
@@ -178,4 +217,4 @@
             HNSOController.create(name);
         }, 2000);
     }
-})(window, document, window.HNSOController, window.VisualController, window.DB, window.gapi);
+})(window, document, window.HNSOController, window.VisualController, window.DB, window.gapi, window.gadgets);
