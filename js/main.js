@@ -107,11 +107,17 @@
             audioResource = gapi.hangout.av.effects.createAudioResource(url);
 
         audioResource.onLoad.add(function __onAudioResouceLoaded__(loadResult) {
+            var sound;
+
             audioResource.onLoad.remove(__onAudioResouceLoaded__);
             if (loadResult.isLoaded) {
                 console.log('name ' + gestureName + " url " + url);
-                audioResource.play({localOnly: false, loop: false, volume: 0.9});
-                audioResource.dispose();
+                sound = audioResource.play({localOnly: false, loop: false, volume: 0.9});
+                setTimeout(function () {
+                    sound.stop();
+                    sound.dispose();
+                    audioResource.dispose();
+                }, 7000);
             }
         });
     }
@@ -122,7 +128,8 @@
                 'text=' + encodeURIComponent(gestureName),
                 'format=wav',
                 'lang=ru-RU',
-                'speaker=jane',
+                'speaker=zahar',
+                'emotion=good',
                 'key=1e0195fd-c2d7-484f-aa71-8dd37733c205'
             ];
 
