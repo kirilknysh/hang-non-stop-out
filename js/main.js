@@ -1,4 +1,4 @@
-(function (global, doc, HNSOController, VisualController) {
+(function (global, doc, HNSOController, VisualController, db) {
     var newGesture = {
         buttonNode: doc.getElementById('new-gesture-button'),
         textNode: doc.getElementById('new-text-value')
@@ -7,17 +7,19 @@
     canvasClass = 'visual-canvas',
     overlay, list, iterator, predefinedGestures;
 
-    initAdding();
-    overlay = initOverlay();
-    list = initList();
-    canvasContainer.style.height = (window.innerHeight - 325) + 'px';
-    VisualController.init(canvasContainer, canvasClass);
-    global.leapController.connect();
+    db.init().always(function () {
+        initAdding();
+        overlay = initOverlay();
+        list = initList();
+        canvasContainer.style.height = (window.innerHeight - 325) + 'px';
+        VisualController.init(canvasContainer, canvasClass);
+        global.leapController.connect();
 
-    predefinedGestures = Object.keys(HNSOController.gestures);
-    for (iterator = 0; iterator < predefinedGestures.length; iterator++) {
-        list.add(predefinedGestures[iterator]);
-    }
+        predefinedGestures = Object.keys(HNSOController.gestures);
+        for (iterator = 0; iterator < predefinedGestures.length; iterator++) {
+            list.add(predefinedGestures[iterator]);
+        }
+    });
 
     function initAdding() {
         newGesture.buttonNode.addEventListener('click', function (event) {
@@ -135,4 +137,4 @@
             HNSOController.create(name);
         }, 2000);
     }
-})(window, document, window.HNSOController, window.VisualController);
+})(window, document, window.HNSOController, window.VisualController, window.DB);

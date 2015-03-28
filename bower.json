@@ -14,6 +14,7 @@
     "jquery": "~2.1.3",
     "three.js": "~0.70.0",
     "leapjs-rigged-hand": "git@github.com:leapmotion/leapjs-rigged-hand.git#~0.1.4",
-    "leapjs-plugins": "git@github.com:leapmotion/leapjs-plugins.git#~0.1.6"
+    "leapjs-plugins": "git@github.com:leapmotion/leapjs-plugins.git#~0.1.6",
+    "lodash": "~3.6.0"
   }
 }
