@@ -7,6 +7,9 @@
     canvasClass = 'visual-canvas',
     overlay, list, iterator;
 
+    var gadgets = gadgets || { util: { registerOnLoadHandler: function(cb) { cb(); } } };
+    var gapi = gapi || { hangout: { onApiReady: { add: function(cb) { cb({}) } } } };
+
     gadgets.util.registerOnLoadHandler(function () {
         gapi.hangout.onApiReady.add(function (eventObj) {
             if (!eventObj.isApiReady) {
