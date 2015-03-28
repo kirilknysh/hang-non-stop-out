@@ -2,11 +2,11 @@
     
     global.leapController = global.leapController || new Leap.Controller();
 
-    var HNSOControllerClass = LeapTrainer.CorrelationController.extend({
+    var HNSOControllerClass = LeapTrainer.Controller.extend({
         controller: leapController,
         trainingCountdown: 5,
         trainingGestures: 1,//amount of repetition
-        minPoseFrames: 75,
+        minPoseFrames: 60,
         hitThreshold: 0.6,
 
         remove: function (gestureName) {
