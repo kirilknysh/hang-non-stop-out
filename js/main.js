@@ -27,7 +27,12 @@
                     add: function (cb) { cb({ isLoaded: true }); },
                     remove: function () { }
                 },
-                play: function () {},
+                play: function () {
+                    return {
+                        stop: function () { },
+                        dispose: function () { }
+                    };
+                },
                 dispose: function () {}
             };
         };
