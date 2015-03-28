@@ -124,8 +124,8 @@ body {
     transform: translate3d(0px, 0px, 0px);
 }
 .overlay.visible-visualizer {
-    -webkit-transform: translate3d(0px, -300px, 0px);
-    transform: translate3d(0px, -300px, 0px);
+    -webkit-transform: translate3d(0px, calc(336px - 100%), 0px);
+    transform: translate3d(0px, calc(336px - 100%), 0px);
 }
 
 .button {
