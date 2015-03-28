@@ -6,7 +6,7 @@
         controller: leapController,
         trainingCountdown: 5,
         trainingGestures: 1,//amount of repetition
-        minPoseFrames: 40,
+        minPoseFrames: 75,
         hitThreshold: 0.6,
 
         remove: function (gestureName) {

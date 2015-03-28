@@ -53,6 +53,12 @@
                     list = initList();
                     canvasContainer.style.height = (window.innerHeight - 325) + 'px';
                     VisualController.init(canvasContainer, canvasClass);
+
+                    var crosshair = doc.createElement('div');
+                    crosshair.className = 'crosshair';
+                    var visualizer = doc.getElementById('visualizer');
+                    visualizer.appendChild(crosshair);
+
                     global.leapController.connect();
 
                     for (iterator = 0; iterator < predefinedGestures.length; iterator++) {
