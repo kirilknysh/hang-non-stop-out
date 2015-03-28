@@ -46,21 +46,10 @@ gulp.task('clean', function(cb) {
   del(['build'], cb);
 });
 
-// gulp.task('vendor', function () {
-// 	return gulp.src(vendorScripts)
-// 		// .pipe(maps.init())
-// 	      .pipe(concat('vendor.min.js'))
-// 	      .pipe(uglify())
-// 	    // .pipe(maps.write('.'))
-// 	    .pipe(gulp.dest('./build/vendor'));
-// });
-
 gulp.task('app', function () {
 	return gulp.src(vendorScripts.concat(appScripts))
-		// .pipe(maps.init())
-	      .pipe(concat('app.min.js'))
-	      // .pipe(uglify())
-	    // .pipe(maps.write('.'))
+	    .pipe(concat('app.min.js'))
+	    .pipe(uglify())
 	    .pipe(gulp.dest('./build/js'));
 });
 
