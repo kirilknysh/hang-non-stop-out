@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+<!-- Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *      
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License
+-->
+        <ModulePrefs title="Hangout Starter">
+                <Require feature="rpc" />
+                <Require feature="views" />
+                <Require feature="locked-domain" />
+        </ModulePrefs>
+        <Content type="html"><![CDATA[     
+
+<html>
+<head>
+    <title>Hang non-stop out!</title>
+
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+<body>
+    <ul id="list" class="list"></ul>
+    <div class="adder-text section">
+        <span class="new-text-label">Text:</span>
+        <span class="new-text-container">
+            <input id="new-text-value" class="new-text inputs" type="text" placeholder="Enter text here..." />
+        </span>
+    </div>
+    <div class="adder-button">
+        <input id="new-gesture-button" class="new-button button" type="button" value="Add new gesture" />
+    </div>
+    <div id="visualizer" class="visualizer section"></div>
+
+    <div id="overlay" class="overlay">
+        <div id="overlay-content" class="content"></div>
+    </div>
+
+    <script type="text/javascript" src="bower_components/leapjs/leap-0.6.2.js"></script>
+    <script type="text/javascript" src="bower_components/LeapTrainer.js/leaptrainer.js"></script>
+    <script type="text/javascript" src="bower_components/LeapTrainer.js/sub-classes/lib/brain.js"></script>
+
+    <script type="text/javascript" src="vendor/neural-networks.js"></script>
+
+    <script type="text/javascript" src="bower_components/three.js/three.js"></script>
+    <script type="text/javascript" src="bower_components/leapjs-plugins/main/leap-plugins-0.1.6.js"></script>
+  <script type="text/javascript" src="bower_components/leapjs-rigged-hand/build/leap.rigged-hand-0.1.4.js"></script>
+<!--  
+    <script type="text/javascript" src="bower_components/LeapTrainer.js/sub-classes/cross-correlation.js"></script>
+    <script type="text/javascript" src="bower_components/LeapTrainer.js/sub-classes/high-resolution-recording.js"></script>
+
+    <script type="text/javascript" src="vendor/jsapi.js"></script>
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="vendor/hangout.js"></script>
+-->
+<script src="//plus.google.com/hangouts/_/api/v1/hangout.js"></script>
+
+    <script type="text/javascript" src="js/HNSOController.js"></script>
+    <script type="text/javascript" src="js/VisualController.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+</body>
+</html>
+
+</body>
+]]>
+</Content>
+</Module>
