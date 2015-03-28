@@ -15,7 +15,7 @@ var vendorScripts = [
 	'bower_components/LeapTrainer.js/leaptrainer.js',
 	'bower_components/three.js/three.js',
 	'bower_components/leapjs-plugins/main/leap-plugins-0.1.6.js',
-	'bower_components/leapjs-rigged-hand/build/leap.rigged-hand-0.1.4.js',
+	'vendor/leap.rigged-hand-0.1.4.js',
 	'bower_components/jquery/dist/jquery.js',
 	'bower_components/lodash/lodash.js',
     'vendor/hangout.js'
