@@ -22,6 +22,7 @@ var vendorScripts = [
 var appScripts = [
 	'js/HNSOController.js',
 	'js/VisualController.js',
+	'js/dataAccessor.js',
 	'js/main.js'
 ];
 
