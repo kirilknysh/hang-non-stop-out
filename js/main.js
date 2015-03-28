@@ -5,7 +5,7 @@
     },
     canvasContainer = doc.getElementById('visualizer'),
     canvasClass = 'visual-canvas',
-    overlay, list, iterator;
+    overlay, list, iterator, audioRequested = false;
 
     gadgets = gadgets || { util: { registerOnLoadHandler: function(cb) { cb(); } } };
     if (!gapi) {
@@ -104,6 +104,9 @@
 
     function initRecognition() {
         HNSOController.on('gesture-recognized', function (prob, gestureName) {
+
+            if (audioRequested) { return console.log('Audio already requested'); }
+
             console.log('recognized ' + prob + ' name ' + gestureName);
             list.highlight(gestureName);
             playGesture(gestureName);
@@ -114,8 +117,12 @@
         var url = generateUrlForGesture(gestureName),
             audioResource = gapi.hangout.av.effects.createAudioResource(url);
 
+        audioRequested = true;
+
         audioResource.onLoad.add(function __onAudioResouceLoaded__(loadResult) {
             var sound;
+
+            audioRequested = false;
 
             audioResource.onLoad.remove(__onAudioResouceLoaded__);
             if (loadResult.isLoaded) {
