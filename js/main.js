@@ -124,6 +124,7 @@
 
         loadTimeout = setTimeout(function () {
             preventGestureRecornize = false;
+            list.unhighlight();
         }, 10000);
 
         audioResource.onLoad.add(function __onAudioResouceLoaded__(loadResult) {
@@ -137,6 +138,7 @@
                 console.log('name ' + gestureName + " url " + url);
                 sound = audioResource.play({localOnly: false, loop: false, volume: 0.9});
                 setTimeout(function () {
+                    list.unhighlight();
                     sound.stop();
                     sound.dispose();
                     audioResource.dispose();
@@ -238,12 +240,9 @@
                 return node;
             },
             highlight: function (gestureName) {
-                var selected = listNode.querySelector('.selected'),
-                    target, iterator;
+                var target, iterator;
 
-                if (selected) {
-                    selected.classList.remove('selected');
-                }
+                this.unhighlight(gestureName);
 
                 for (iterator = 0; iterator < listNode.childNodes.length; iterator++) {
                     if (listNode.childNodes[iterator].dataset.gestureName &&
@@ -254,6 +253,13 @@
 
                 if (target) {
                     target.classList.add('selected');
+                }
+            },
+            unhighlight: function (gestureName) {
+                var selected = listNode.querySelector('.selected');
+
+                if (selected) {
+                    selected.classList.remove('selected');
                 }
             }
         };
