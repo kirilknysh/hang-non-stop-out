@@ -117,13 +117,19 @@
 
     function playGesture(gestureName) {
         var url = generateUrlForGesture(gestureName),
-            audioResource = gapi.hangout.av.effects.createAudioResource(url);
+            audioResource = gapi.hangout.av.effects.createAudioResource(url),
+            loadTimeout;
 
         preventGestureRecornize = true;
+
+        loadTimeout = setTimeout(function () {
+            preventGestureRecornize = false;
+        }, 10000);
 
         audioResource.onLoad.add(function __onAudioResouceLoaded__(loadResult) {
             var sound;
 
+            clearTimeout(loadTimeout);
             preventGestureRecornize = false;
 
             audioResource.onLoad.remove(__onAudioResouceLoaded__);
