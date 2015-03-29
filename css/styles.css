@@ -1,6 +1,8 @@
 html {
-    background: #ccc;
     font-family: Helvetica, Helvetica Neue, Arial;
+    background: #7a7a7a; /* Old browsers */
+    background: -webkit-linear-gradient(left, #7a7a7a 0%,#e2e2e2 100%); /* Chrome10+,Safari5.1+ */
+    background: linear-gradient(to right, #7a7a7a 0%,#e2e2e2 100%); /* W3C */
 }
 
 body {
