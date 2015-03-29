@@ -5,7 +5,7 @@
     },
     canvasContainer = doc.getElementById('visualizer'),
     canvasClass = 'visual-canvas',
-    overlay, list, iterator, audioRequested = false;
+    overlay, list, iterator, preventGestureRecornize = false;
 
     gadgets = gadgets || { util: { registerOnLoadHandler: function(cb) { cb(); } } };
     if (!gapi) {
@@ -86,6 +86,7 @@
         }, false);
 
         HNSOController.on('training-countdown', function (countdown) {
+            preventGestureRecornize = true;
             overlay.content(countdown);
         });
         HNSOController.on('training-started', function (gestureName) {
@@ -96,6 +97,7 @@
             list.add(gestureName);
             db.addGesture(gestureName, HNSOController.toJSON(gestureName));
             setTimeout(function () {
+                preventGestureRecornize = false;
                 overlay.hide();
                 newGesture.textNode.value = '';
             }, 3000);
@@ -105,7 +107,7 @@
     function initRecognition() {
         HNSOController.on('gesture-recognized', function (prob, gestureName) {
 
-            if (audioRequested) { return console.log('Audio already requested'); }
+            if (preventGestureRecornize) { return console.log('Gesture recognize is prevented'); }
 
             console.log('recognized ' + prob + ' name ' + gestureName);
             list.highlight(gestureName);
@@ -117,12 +119,12 @@
         var url = generateUrlForGesture(gestureName),
             audioResource = gapi.hangout.av.effects.createAudioResource(url);
 
-        audioRequested = true;
+        preventGestureRecornize = true;
 
         audioResource.onLoad.add(function __onAudioResouceLoaded__(loadResult) {
             var sound;
 
-            audioRequested = false;
+            preventGestureRecornize = false;
 
             audioResource.onLoad.remove(__onAudioResouceLoaded__);
             if (loadResult.isLoaded) {
