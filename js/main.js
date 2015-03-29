@@ -196,7 +196,7 @@
 
             if (event.target.classList.contains('trash')) {
                 itemNode = event.target.parentNode;
-                gestureName = itemNode.dataset.getureName;
+                gestureName = itemNode.dataset.gestureName;
                 HNSOController.remove(gestureName);
                 list.remove(itemNode);
                 db.removeGesture(gestureName);
